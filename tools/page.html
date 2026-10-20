@@ -1,0 +1,151 @@
+<title>OpenForge Guide Gaps</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a print-bed sheet. One band per guide; texture grid on top, the missing pieces under it. */
+:root {
+  --bg: #f3f4f1; --panel: #ffffff; --fg: #1d2420; --muted: #5d6862; --line: #d8ddd8;
+  --accent: #0f7a6c; --accent-soft: #dcefeb;
+  --yes: #2f7d3b; --yes-bg: #e2f1e2; --warn: #9a6a00; --warn-bg: #f8edcf; --no: #b33a2b; --no-bg: #f8e1dc;
+  --display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141917; --panel: #1c2320; --fg: #e3e8e4; --muted: #96a29b; --line: #2e3833;
+  --accent: #4cc2ae; --accent-soft: #1d3a35;
+  --yes: #7fcf89; --yes-bg: #1e3322; --warn: #e3b94f; --warn-bg: #3a3018; --no: #f08a7a; --no-bg: #40221d; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #141917; --panel: #1c2320; --fg: #e3e8e4; --muted: #96a29b; --line: #2e3833;
+  --accent: #4cc2ae; --accent-soft: #1d3a35;
+  --yes: #7fcf89; --yes-bg: #1e3322; --warn: #e3b94f; --warn-bg: #3a3018; --no: #f08a7a; --no-bg: #40221d; color-scheme: dark }
+
+body { background: var(--bg); color: var(--fg); font: 15px/1.5 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+main { max-width: 1080px; margin: 0 auto; display: grid; gap: 40px; }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: 2rem; font-weight: 700; letter-spacing: .01em; }
+h2 { font-size: 1.5rem; font-weight: 600; }
+h3 { font-size: 1.05rem; font-weight: 600; }
+p { margin: 0; max-width: 68ch; }
+.lede { display: grid; gap: 10px; color: var(--muted); }
+.lede strong { color: var(--fg); font-weight: 600; }
+nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 2; background: var(--bg); padding-block: 10px;
+  display: flex; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid var(--line); }
+nav a { font: 600 .85rem var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--accent);
+  text-decoration: none; padding: 6px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); }
+nav a:hover, nav a:focus-visible { border-color: var(--accent); outline: none; }
+
+.guide { display: grid; gap: 20px; scroll-margin-top: 64px; }
+.guide-head { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: baseline; justify-content: space-between; }
+.tally { display: flex; flex-wrap: wrap; gap: 8px; font-size: .85rem; }
+.pill { font: 500 .78rem var(--mono); padding: 2px 8px; border-radius: 3px; white-space: nowrap; }
+.pill.yes { background: var(--yes-bg); color: var(--yes); }
+.pill.warn { background: var(--warn-bg); color: var(--warn); }
+.pill.no { background: var(--no-bg); color: var(--no); }
+
+.grid-wrap { overflow-x: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 7px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font: 600 .72rem var(--display); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+tr:last-child td { border-bottom: 0; }
+td.tex { font-family: var(--mono); font-size: .88rem; }
+.absent { font-size: .85rem; color: var(--muted); }
+.absent code { font-family: var(--mono); }
+
+.groups { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); align-items: start; }
+.group { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; display: grid; gap: 10px; min-width: 0; }
+.group-head { display: flex; gap: 8px; align-items: baseline; justify-content: space-between; }
+.role { font: 600 .7rem var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.issue { font: 500 .75rem var(--mono); color: var(--muted); user-select: all; }
+.lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.lines li { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { font: .76rem var(--mono); background: var(--accent-soft); color: var(--fg); padding: 1px 6px; border-radius: 3px; overflow-wrap: anywhere; }
+.chip b { font-weight: 500; color: var(--muted); }
+.always { font-size: .85rem; color: var(--muted); }
+details summary { cursor: pointer; font-size: .85rem; color: var(--accent); }
+details summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+details[open] summary { margin-bottom: 6px; }
+.note { font-size: .85rem; color: var(--muted); }
+</style>
+
+<main>
+  <header class="lede">
+    <h1>OpenForge guide gaps</h1>
+    <p>For each guide in openforge-catalog: which textures can be built from start to finish, and which answers lead to a part that does not exist. The guide engine itself judged every reachable combination of answers against the fixtures.</p>
+    <p>Each card under a guide is <strong>one missing piece</strong>. Each row on a card is the shortest set of answers that runs into it; any answer not named there can be anything. Dual-clip bases are left out: they are plain-only by design.</p>
+    <p>The ids are beads issues under <strong>openforge-8lx</strong> in openforge-library.</p>
+  </header>
+  <nav id="nav"></nav>
+  <div id="guides" style="display:grid;gap:56px"></div>
+</main>
+
+<script>
+const DATA = /*DATA*/null;
+const BLURB = {
+  floor: "Floors alone. Every texture listed builds; nine of them just are not offered yet (openforge-8lx.1).",
+  corner: "Two walls meeting with a pillar and a corner floor.",
+  wall: "A straight wall with its base and floor. “Other floor” means the texture builds, but only with a floor from another texture (openforge-8lx.3).",
+};
+const CELL = { "yes": ["yes", "builds"], "other-floor": ["warn", "other floor"], "no": ["no", "missing"] };
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+const nav = document.getElementById("nav"), root = document.getElementById("guides");
+for (const [name, g] of Object.entries(DATA)) {
+  const a = el("a", null, name); a.href = "#" + name; nav.append(a);
+  const sec = el("section", "guide"); sec.id = name;
+
+  const head = el("div", "guide-head");
+  head.append(el("h2", null, name[0].toUpperCase() + name.slice(1) + " guide"));
+  const full = g.rows.filter(r => Object.values(r.cells).every(c => c === "yes"));
+  const tally = el("div", "tally");
+  tally.append(el("span", "pill yes", `${full.filter(r => r.offered).length} complete & offered`));
+  const hidden = g.rows.filter(r => !r.offered && Object.values(r.cells).some(c => c !== "no")).length;
+  if (hidden) tally.append(el("span", "pill warn", `${hidden} build but not offered`));
+  const part = g.rows.filter(r => !Object.values(r.cells).every(c => c === "yes")).length;
+  if (part) tally.append(el("span", "pill no", `${part} with gaps`));
+  tally.append(el("span", "pill", `${g.groups.length} missing pieces`));
+  head.append(tally);
+  sec.append(head, el("p", "note", BLURB[name] || ""));
+
+  const wrap = el("div", "grid-wrap"), t = el("table"), hr = el("tr");
+  ["texture", "offered", ...g.methods.filter(m => m !== "-")].forEach(h => hr.append(el("th", null, h)));
+  if (g.methods.includes("-")) hr.append(el("th", null, "builds"));
+  t.append(hr);
+  for (const r of g.rows) {
+    const tr = el("tr");
+    tr.append(el("td", "tex", r.texture));
+    const off = el("td"); off.append(el("span", "pill " + (r.offered ? "yes" : "warn"), r.offered ? "offered" : "not offered")); tr.append(off);
+    for (const m of g.methods) { const td = el("td"), [c, txt] = CELL[r.cells[m]]; td.append(el("span", "pill " + c, txt)); tr.append(td); }
+    t.append(tr);
+  }
+  wrap.append(t); sec.append(wrap);
+  if (g.absent.length) {
+    const p = el("p", "absent", "No pieces at all in this guide, so not listed: ");
+    p.append(el("code", null, g.absent.join(", "))); sec.append(p);
+  }
+
+  const groups = el("div", "groups");
+  for (const grp of g.groups) {
+    const card = el("article", "group"), gh = el("div", "group-head"), left = el("div");
+    left.append(el("div", "role", grp.role), el("h3", null, grp.title));
+    gh.append(left);
+    if (grp.issue) gh.append(el("span", "issue", grp.issue));
+    card.append(gh);
+    const mk = lines => { const ul = el("ul", "lines");
+      for (const l of lines) { const li = el("li"), ks = Object.keys(l);
+        if (!ks.length) li.append(el("span", "always", "whatever you answer"));
+        for (const k of ks) { const c = el("span", "chip"); c.append(el("b", null, k + " "), document.createTextNode(l[k])); li.append(c); }
+        ul.append(li); }
+      return ul; };
+    card.append(mk(grp.lines.slice(0, 6)));
+    if (grp.lines.length > 6) {
+      const d = el("details"); d.append(el("summary", null, `${grp.lines.length - 6} more`), mk(grp.lines.slice(6))); card.append(d);
+    }
+    groups.append(card);
+  }
+  sec.append(groups);
+  root.append(sec);
+}
+</script>
