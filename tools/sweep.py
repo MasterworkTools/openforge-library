@@ -48,8 +48,14 @@ def load_records():
             data = yaml.safe_load(p.read_text()) or []
         else:
             continue
+        # A rename leaves the old-name row behind, deprecated, with the same
+        # md5. Production never holds it; a fresh load would merge it into the
+        # live row (both hands, or the live file deprecated). Skip it.
+        live = {(d.get("file_metadata") or {}).get("md5") for d in data if not d.get("deprecated")}
         for d in data:
             fm = d.get("file_metadata") or {}
+            if d.get("deprecated") and fm.get("md5") in live:
+                continue
             tags = {t if isinstance(t, str) else "|".join(t) for t in d.get("tags", [])}
             md5 = fm.get("md5")
             # insert_blueprint(rescue_md5_conflict=True): the first row wins
@@ -179,9 +185,16 @@ def open_choices(cat, doc):
     engine will judge textures it does not offer. Returns what was offered."""
     offered = {}
     for ref in doc.get("refinements", []):
+        everything = universe(cat, doc, ref, doc["roles"])
         if ref.get("choices"):
             offered[ref["key"]] = [c["tag"] for c in ref["choices"]]
-            ref["choices"] = [{"tag": t, "title": t} for t in universe(cat, doc, ref, doc["roles"])]
+            ref["choices"] = [{"tag": t, "title": t} for t in everything]
+        else:
+            # Derived: the guide offers whatever the parts carry.
+            # ponytail: counts every texture any part carries as offered; the
+            # engine intersects per role, so a texture only one role has is
+            # shown offered here and hidden on the site.
+            offered[ref["key"]] = everything
     return offered
 
 
@@ -367,7 +380,7 @@ def main():
         # dead branches are noise.
         tex_roles = [n for n, r in doc["roles"].items() if E._reaches(tex, n) and not r.get("match")]
         relevant = sorted(
-            t for t in (c["tag"] for c in tex["choices"])
+            t for t in (c["tag"] for c in tex.get("choices") or [{"tag": t} for t in offered["texture"]])
             if any(not hopeless(cat, E._union([doc["roles"][n]["query"],
                                                 E._refinement_predicate(tex, t, n)]))
                    for n in tex_roles)

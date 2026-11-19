@@ -8,19 +8,19 @@ judged by the guide engine itself. Counts are left out on purpose: they drift.
 | texture | offered | - |
 |---|---|---|
 | aztlan | yes | yes |
-| cave | **no** | yes |
-| cavern | **no** | yes |
-| cracked_ice | **no** | yes |
+| cave | yes | yes |
+| cavern | yes | yes |
+| cracked_ice | yes | yes |
 | cut-stone | yes | yes |
 | dungeon_stone | yes | yes |
-| dwarven_halls | **no** | yes |
-| large_brick | **no** | yes |
-| necro | **no** | yes |
+| dwarven_halls | yes | yes |
+| large_brick | yes | yes |
+| necro | yes | yes |
 | nova_trail | yes | yes |
-| pool | **no** | yes |
+| pool | yes | yes |
 | rough_stone | yes | yes |
-| sewer | **no** | yes |
-| streets | **no** | yes |
+| sewer | yes | yes |
+| streets | yes | yes |
 | towne | yes | yes |
 
 Absent (no piece for any part, fine): none
@@ -30,18 +30,15 @@ Absent (no piece for any part, fine): none
 | texture | offered | s2w | separate-wall | wall-on-tile |
 |---|---|---|---|---|
 | aztlan | yes | yes | yes | yes |
-| cave | **no** | no | no | no |
-| cavern | **no** | no | no | no |
 | cut-stone | yes | yes | yes | yes |
 | dungeon_stone | yes | yes | yes | yes |
 | mortar_and_stone | **no** | no | no | no |
 | necro | **no** | no | no | no |
 | nova_trail | yes | yes | yes | yes |
-| rough_stone | **no** | yes, other floor | yes | no |
-| sewer | **no** | no | no | no |
+| rough_stone | yes | yes | yes | no |
 | towne | yes | yes | yes | yes |
 
-Absent (no piece for any part, fine): foundation, goblin_fireplace, ironbound_wood, legacy_sewers, plain, stone, timber, wood
+Absent (no piece for any part, fine): cave, cavern, foundation, goblin_fireplace, ironbound_wood, legacy_sewers, plain, sewer, stone, timber, wood
 
 ## wall: textures
 
@@ -53,7 +50,7 @@ Absent (no piece for any part, fine): foundation, goblin_fireplace, ironbound_wo
 | mortar_and_stone | yes | yes, other floor | yes, other floor | yes, other floor |
 | necro | yes | yes, other floor | yes | yes, other floor |
 | nova_trail | yes | yes | yes | yes |
-| rough_stone | yes | yes, other floor | yes | yes, other floor |
+| rough_stone | yes | yes | yes | yes |
 | stone_brick | yes | yes, other floor | yes, other floor | yes, other floor |
 | towne | yes | yes | yes | yes |
 
@@ -168,15 +165,11 @@ anything not named there can be answered any way.
 
 ### floor: rough_stone
 
-- corner: floor-print=with-base, method=s2w
-- corner: floor-print=with-base, method=wall-on-tile
 - floor: floor-clips=openlock,openlock|unsupported, floor-print=single-piece
 - floor: floor-print=single-piece, size=6x4
 - floor: floor-print=single-piece, size=8x8
 - floor: size=6x6
 - wall: floor-clips=openlock,openlock|unsupported, floor-print=single-piece, method=separate-wall
-- wall: method=s2w
-- wall: method=wall-on-tile
 
 ### floor: sewer
 
@@ -341,18 +334,6 @@ anything not named there can be answered any way.
 - corner: method=s2w, side-lock=dragonlock, wall-print=single-piece
 - corner: method=separate-wall, side-lock=dragonlock, wall-print=single-piece
 
-### left-wall: cave
-
-- corner: floor-print=with-base, method=s2w
-- corner: floor-print=with-base, method=wall-on-tile
-
-### left-wall: cavern
-
-- corner: floor-print=with-base, method=s2w
-- corner: floor-print=with-base, method=wall-on-tile
-- corner: method=separate-wall, side-lock=dragonlock
-- corner: method=separate-wall, wall-print=single-piece
-
 ### left-wall: mortar_and_stone
 
 - corner: floor-print=with-base, method=s2w, side-lock=dragonlock
@@ -371,29 +352,11 @@ anything not named there can be answered any way.
 
 - corner: floor-print=with-base, method=wall-on-tile
 
-### left-wall: sewer
-
-- corner: floor-print=with-base, method=s2w
-- corner: floor-print=with-base, method=wall-on-tile
-- corner: method=separate-wall, side-lock=dragonlock
-
 ### pillar: any texture
 
 - corner: floor-print=with-base, height=low, method=s2w, side-lock=dragonlock
 - corner: floor-print=with-base, height=low, method=wall-on-tile, side-lock=dragonlock
 - corner: height=low, method=separate-wall, side-lock=dragonlock
-
-### pillar: cave
-
-- corner: floor-print=with-base, method=s2w
-- corner: floor-print=with-base, method=wall-on-tile
-- corner: method=separate-wall
-
-### pillar: cavern
-
-- corner: floor-print=with-base, method=s2w
-- corner: floor-print=with-base, method=wall-on-tile
-- corner: method=separate-wall
 
 ### pillar: dungeon_stone
 
@@ -426,12 +389,6 @@ anything not named there can be answered any way.
 - corner: height=low, method=separate-wall
 - corner: method=separate-wall, side-lock=dragonlock
 
-### pillar: sewer
-
-- corner: floor-print=with-base, method=s2w
-- corner: floor-print=with-base, method=wall-on-tile
-- corner: method=separate-wall
-
 ### right-wall: any texture
 
 - corner: floor-print=with-base, height=low, method=s2w
@@ -439,18 +396,6 @@ anything not named there can be answered any way.
 - corner: height=low, method=separate-wall
 - corner: method=s2w, side-lock=dragonlock, wall-print=single-piece
 - corner: method=separate-wall, side-lock=dragonlock, wall-print=single-piece
-
-### right-wall: cave
-
-- corner: floor-print=with-base, method=s2w
-- corner: floor-print=with-base, method=wall-on-tile
-
-### right-wall: cavern
-
-- corner: floor-print=with-base, method=s2w
-- corner: floor-print=with-base, method=wall-on-tile
-- corner: method=separate-wall, side-lock=dragonlock
-- corner: method=separate-wall, wall-print=single-piece
 
 ### right-wall: mortar_and_stone
 
@@ -469,12 +414,6 @@ anything not named there can be answered any way.
 ### right-wall: rough_stone
 
 - corner: floor-print=with-base, method=wall-on-tile
-
-### right-wall: sewer
-
-- corner: floor-print=with-base, method=s2w
-- corner: floor-print=with-base, method=wall-on-tile
-- corner: method=separate-wall, side-lock=dragonlock
 
 ### wall: any texture
 
@@ -572,11 +511,11 @@ anything not named there can be answered any way.
 
 ### wall-base: fitting 1.5
 
-- corner: base-clips=openlock,openlock|topless, floor-print=with-base, method=s2w, wall-print=with-base — in aztlan, cut-stone, necro, nova_trail, rough_stone, towne
+- corner: base-clips=openlock,openlock|topless, floor-print=with-base, method=s2w — in aztlan, cut-stone, necro, nova_trail, rough_stone, towne
 
 ### wall-base: fitting 2
 
-- corner: base-clips=openlock,openlock|topless, method=separate-wall, wall-print=with-base — in aztlan, cave, cut-stone, necro, nova_trail, rough_stone, sewer, towne
+- corner: base-clips=openlock,openlock|topless, method=separate-wall, wall-print=with-base — in aztlan, cut-stone, necro, nova_trail, rough_stone, towne
 - wall: base-clips=openlock,openlock|topless, method=s2w, wall-print=with-base — in aztlan, cut-stone, mortar_and_stone, necro, nova_trail, rough_stone, stone_brick, towne
 - wall: base-clips=openlock,openlock|topless, method=separate-wall, size=2x1, wall-print=with-base — in aztlan, cut-stone, mortar_and_stone, necro, nova_trail, rough_stone, stone_brick, towne
 - wall: base-clips=openlock,openlock|topless, method=separate-wall, size=2x2, wall-print=with-base — in aztlan, cut-stone, mortar_and_stone, necro, nova_trail, rough_stone, stone_brick, towne
@@ -620,12 +559,12 @@ anything not named there can be answered any way.
 
 ### wall-base: regardless of size
 
-- corner: base-clips=magnetic,openlock,openlock|unsupported, floor-print=with-base, method=s2w, wall-print=with-base — in cut-stone, dungeon_stone, necro, rough_stone, towne
-- corner: base-clips=magnetic,openlock,openlock|unsupported, method=separate-wall, wall-print=with-base — in cave, cut-stone, dungeon_stone, necro, rough_stone, sewer, towne
-- corner: base-clips=openlock,openlock|unsupported, floor-print=with-base, method=s2w, wall-print=with-base — in cut-stone, dungeon_stone, necro, rough_stone, towne
-- corner: base-clips=openlock,openlock|unsupported, method=separate-wall, wall-print=with-base — in cave, cut-stone, dungeon_stone, necro, rough_stone, sewer, towne
-- corner: floor-print=with-base, method=s2w, wall-print=with-base — in cavern, mortar_and_stone
-- corner: method=separate-wall, wall-print=with-base — in cavern, mortar_and_stone
+- corner: base-clips=magnetic,openlock,openlock|unsupported, floor-print=with-base, method=s2w — in cut-stone, dungeon_stone, necro, rough_stone, towne
+- corner: base-clips=magnetic,openlock,openlock|unsupported, method=separate-wall, wall-print=with-base — in cut-stone, dungeon_stone, necro, rough_stone, towne
+- corner: base-clips=openlock,openlock|unsupported, floor-print=with-base, method=s2w — in cut-stone, dungeon_stone, necro, rough_stone, towne
+- corner: base-clips=openlock,openlock|unsupported, method=separate-wall, wall-print=with-base — in cut-stone, dungeon_stone, necro, rough_stone, towne
+- corner: floor-print=with-base, method=s2w — in mortar_and_stone
+- corner: method=separate-wall, wall-print=with-base — in mortar_and_stone
 - wall: base-clips=dragonlock,dragonlock|unsupported, method=s2w, wall-print=with-base
 - wall: base-clips=dragonlock,dragonlock|unsupported, method=separate-wall, wall-print=with-base
 - wall: base-clips=dragonlock,dragonlock|unsupported,magnetic, method=s2w, wall-print=with-base
@@ -636,4 +575,59 @@ anything not named there can be answered any way.
 - wall: base-clips=magnetic,openlock,openlock|unsupported, method=separate-wall, wall-print=with-base — in cut-stone, dungeon_stone, mortar_and_stone, necro, rough_stone, stone_brick, towne
 - wall: base-clips=openlock,openlock|unsupported, method=s2w, wall-print=with-base — in cut-stone, dungeon_stone, mortar_and_stone, necro, rough_stone, stone_brick, towne
 - wall: base-clips=openlock,openlock|unsupported, method=separate-wall, wall-print=with-base — in cut-stone, dungeon_stone, mortar_and_stone, necro, rough_stone, stone_brick, towne
+
+### wall-base-right: any texture
+
+- corner: base-clips=dragonlock, floor-print=with-base, method=s2w
+- corner: base-clips=magnetic, floor-print=with-base, method=s2w
+- corner: base-clips=openlock, floor-print=with-base, method=s2w
+- corner: base-clips=openlock,openlock|topless, floor-print=with-base, method=s2w
+- corner: base-clips=openlock,openlock|unsupported, floor-print=with-base, method=s2w
+
+### wall-base-right: aztlan
+
+- corner: base-clips=openlock,openlock|topless, method=separate-wall, wall-print=with-base
+
+### wall-base-right: cut-stone
+
+- corner: base-clips=magnetic,openlock,openlock|unsupported, floor-print=with-base, method=s2w
+- corner: base-clips=magnetic,openlock,openlock|unsupported, method=separate-wall, wall-print=with-base
+- corner: base-clips=openlock,openlock|topless, method=separate-wall, wall-print=with-base
+- corner: base-clips=openlock,openlock|unsupported, method=separate-wall, wall-print=with-base
+
+### wall-base-right: dungeon_stone
+
+- corner: base-clips=magnetic,openlock,openlock|unsupported, floor-print=with-base, method=s2w
+- corner: base-clips=magnetic,openlock,openlock|unsupported, method=separate-wall, wall-print=with-base
+- corner: base-clips=openlock,openlock|unsupported, method=separate-wall, wall-print=with-base
+
+### wall-base-right: mortar_and_stone
+
+- corner: floor-print=with-base, method=s2w
+- corner: method=separate-wall, wall-print=with-base
+
+### wall-base-right: necro
+
+- corner: base-clips=magnetic,openlock,openlock|unsupported, floor-print=with-base, method=s2w
+- corner: base-clips=magnetic,openlock,openlock|unsupported, method=separate-wall, wall-print=with-base
+- corner: base-clips=openlock,openlock|topless, method=separate-wall, wall-print=with-base
+- corner: base-clips=openlock,openlock|unsupported, method=separate-wall, wall-print=with-base
+
+### wall-base-right: nova_trail
+
+- corner: base-clips=openlock,openlock|topless, method=separate-wall, wall-print=with-base
+
+### wall-base-right: rough_stone
+
+- corner: base-clips=magnetic,openlock,openlock|unsupported, floor-print=with-base, method=s2w
+- corner: base-clips=magnetic,openlock,openlock|unsupported, method=separate-wall, wall-print=with-base
+- corner: base-clips=openlock,openlock|topless, method=separate-wall, wall-print=with-base
+- corner: base-clips=openlock,openlock|unsupported, method=separate-wall, wall-print=with-base
+
+### wall-base-right: towne
+
+- corner: base-clips=magnetic,openlock,openlock|unsupported, floor-print=with-base, method=s2w
+- corner: base-clips=magnetic,openlock,openlock|unsupported, method=separate-wall, wall-print=with-base
+- corner: base-clips=openlock,openlock|topless, method=separate-wall, wall-print=with-base
+- corner: base-clips=openlock,openlock|unsupported, method=separate-wall, wall-print=with-base
 
