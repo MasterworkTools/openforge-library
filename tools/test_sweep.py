@@ -35,3 +35,9 @@ print("ok")
 _wing = next(r for r in W.load_records() if r["blueprint_name"] == "dungeon_stone#corner+left,wall.2x.openforge,side.stl")
 assert "shape|corner|right" not in _wing["tags"], _wing["tags"]
 print("ok")
+
+# The floor guide's texture question is derived (no choices): every texture
+# the parts carry counts as offered.
+floor = yaml.safe_load((W.CATALOG / "openforge/db/fixtures/guides/floor.yaml").read_text())
+assert "texture|aztlan" in W.open_choices(cat, floor)["texture"]
+print("ok")

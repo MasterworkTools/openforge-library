@@ -48,13 +48,12 @@ def load_records():
             data = yaml.safe_load(p.read_text()) or []
         else:
             continue
-        # A rename leaves the old-name row behind, deprecated, with the same
-        # md5. Production never holds it; a fresh load would merge it into the
-        # live row (both hands, or the live file deprecated). Skip it.
-        live = {(d.get("file_metadata") or {}).get("md5") for d in data if not d.get("deprecated")}
         for d in data:
             fm = d.get("file_metadata") or {}
-            if d.get("deprecated") and fm.get("md5") in live:
+            # A rename leaves the old-name row behind, deprecated, with the
+            # same md5; merged by md5 it would give the live file both hands
+            # or make it deprecated. The search never returns deprecated rows.
+            if d.get("deprecated"):
                 continue
             tags = {t if isinstance(t, str) else "|".join(t) for t in d.get("tags", [])}
             md5 = fm.get("md5")
@@ -67,15 +66,14 @@ def load_records():
                 "id": len(recs),
                 "blueprint_name": d.get("name") or fm.get("file") or "",
                 "type": d["type"],
-                "deprecated": d.get("deprecated", False),
                 "full_name": fm.get("full_name"),
                 "tags": tags,
             }
             recs.append(r)
             if md5:
                 by_md5[md5] = r
-    # The search runs with models=True, blueprints=False and skips deprecated.
-    return [r for r in recs if r["type"] == "model" and not r["deprecated"]]
+    # The search runs with models=True, blueprints=False.
+    return [r for r in recs if r["type"] == "model"]
 
 
 class Catalog:
@@ -380,7 +378,7 @@ def main():
         # dead branches are noise.
         tex_roles = [n for n, r in doc["roles"].items() if E._reaches(tex, n) and not r.get("match")]
         relevant = sorted(
-            t for t in (c["tag"] for c in tex.get("choices") or [{"tag": t} for t in offered["texture"]])
+            t for t in ([c["tag"] for c in tex["choices"]] if tex.get("choices") else offered["texture"])
             if any(not hopeless(cat, E._union([doc["roles"][n]["query"],
                                                 E._refinement_predicate(tex, t, n)]))
                    for n in tex_roles)
