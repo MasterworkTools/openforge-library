@@ -50,6 +50,11 @@ def load_records():
             continue
         for d in data:
             fm = d.get("file_metadata") or {}
+            # A rename leaves the old-name row behind, deprecated, with the
+            # same md5; merged by md5 it would give the live file both hands
+            # or make it deprecated. The search never returns deprecated rows.
+            if d.get("deprecated"):
+                continue
             tags = {t if isinstance(t, str) else "|".join(t) for t in d.get("tags", [])}
             md5 = fm.get("md5")
             # insert_blueprint(rescue_md5_conflict=True): the first row wins
@@ -61,15 +66,14 @@ def load_records():
                 "id": len(recs),
                 "blueprint_name": d.get("name") or fm.get("file") or "",
                 "type": d["type"],
-                "deprecated": d.get("deprecated", False),
                 "full_name": fm.get("full_name"),
                 "tags": tags,
             }
             recs.append(r)
             if md5:
                 by_md5[md5] = r
-    # The search runs with models=True, blueprints=False and skips deprecated.
-    return [r for r in recs if r["type"] == "model" and not r["deprecated"]]
+    # The search runs with models=True, blueprints=False.
+    return [r for r in recs if r["type"] == "model"]
 
 
 class Catalog:
@@ -179,9 +183,16 @@ def open_choices(cat, doc):
     engine will judge textures it does not offer. Returns what was offered."""
     offered = {}
     for ref in doc.get("refinements", []):
+        everything = universe(cat, doc, ref, doc["roles"])
         if ref.get("choices"):
             offered[ref["key"]] = [c["tag"] for c in ref["choices"]]
-            ref["choices"] = [{"tag": t, "title": t} for t in universe(cat, doc, ref, doc["roles"])]
+            ref["choices"] = [{"tag": t, "title": t} for t in everything]
+        else:
+            # Derived: the guide offers whatever the parts carry.
+            # ponytail: counts every texture any part carries as offered; the
+            # engine intersects per role, so a texture only one role has is
+            # shown offered here and hidden on the site.
+            offered[ref["key"]] = everything
     return offered
 
 
@@ -367,7 +378,7 @@ def main():
         # dead branches are noise.
         tex_roles = [n for n, r in doc["roles"].items() if E._reaches(tex, n) and not r.get("match")]
         relevant = sorted(
-            t for t in (c["tag"] for c in tex["choices"])
+            t for t in ([c["tag"] for c in tex["choices"]] if tex.get("choices") else offered["texture"])
             if any(not hopeless(cat, E._union([doc["roles"][n]["query"],
                                                 E._refinement_predicate(tex, t, n)]))
                    for n in tex_roles)
